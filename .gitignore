@@ -1,0 +1,15 @@
+config/roles.json
+infra/parameters.json
+!infra/parameters.json.example
+!config/roles.json.example
+
+.env
+*.env
+__pycache__/
+*.pyc
+venv/
+.venv/
+node_modules/
+dist/
+.DS_Store
+Thumbs.db
