@@ -9,7 +9,7 @@ Practical tools for data engineering managers and architects — for the people 
 | Tool | What it does | Status |
 |------|-------------|--------|
 | [prioritization-board](./prioritization-board/) | Team-driven roadmap prioritization — ICs submit ideas, everyone votes, leadership gets a real signal | In progress |
-| skill-map | Visual skill coverage map for a data team — shows gaps, depth, and growth areas | Planned |
+| [skill-map](./skill-map/) | Personal skill growth tracker — drag to rate each skill, save snapshots, watch your shape expand over time. Opt-in sharing for team view | In progress |
 | team-perception | Framework for understanding team dynamics — balancing challenge and support | Planned |
 
 ---
