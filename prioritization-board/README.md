@@ -112,7 +112,15 @@ prioritization-board/
 │   └── parameters.json      # Deployment parameters template
 └── docker-compose.yml
 ```
+Tech Debt & Ideas Board:
+<img width="1772" height="896" alt="image" src="https://github.com/user-attachments/assets/5ecbe55f-662b-4062-b36d-cca18fbdc911" />
+Prioritized work & Status
+<img width="1603" height="862" alt="image" src="https://github.com/user-attachments/assets/a83857e0-dce7-4c64-a80f-e6de580dd9ea" />
+Idea Submission Page 
+<img width="694" height="876" alt="image" src="https://github.com/user-attachments/assets/4278ce9c-8f56-478b-8ed0-18291dc4b660" />
 
----
+
+
+
 
 Part of the [data-leadership-tools](../README.md) collection.
