@@ -10,7 +10,14 @@ Everyone has a different shape. Some people are deep in technical skills but lig
 
 This tool makes that visible. Not as a performance review. Not for your manager. For you, so you can see where you are and where you want to go.
 
----
+Team peridocially do self asseemnt : 
+<img width="1166" height="884" alt="image" src="https://github.com/user-attachments/assets/4bff8087-2c98-41b4-ac2c-414be95b3b43" />
+
+We understand teams self perception and XFN teams personal if there any gap as leadership we can take access to minimise gap. 
+
+<img width="1186" height="897" alt="image" src="https://github.com/user-attachments/assets/504068f8-99a2-4b4b-8863-aee7e1bd5468" />
+
+
 
 ## How it works
 
@@ -102,3 +109,4 @@ skill-map/
 ---
 
 Part of the [data-leadership-tools](../README.md) collection.
+
