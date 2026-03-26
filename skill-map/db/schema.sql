@@ -75,7 +75,7 @@ ORDER BY s.user_id, s.created_at DESC;
 CREATE OR REPLACE VIEW vw_snapshot_shape AS
 SELECT
     ss.snapshot_id,
-    s.user_id,
+    sn.user_id,
     u.display_name,
     sk.name       AS skill_name,
     sk.category   AS skill_category,
@@ -83,7 +83,6 @@ SELECT
     sn.created_at AS snapshot_date,
     sn.label      AS snapshot_label
 FROM snapshot_skills ss
-JOIN snapshots    sn ON sn.id    = ss.snapshot_id
-JOIN skills       sk ON sk.id   = ss.skill_id
-JOIN users         s ON  s.id   = sn.user_id
-JOIN users         u ON  u.id   = sn.user_id;
+JOIN snapshots sn ON sn.id  = ss.snapshot_id
+JOIN skills    sk ON sk.id  = ss.skill_id
+JOIN users      u ON  u.id  = sn.user_id;

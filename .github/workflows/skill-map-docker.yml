@@ -1,0 +1,64 @@
+name: Skill Map — Build & Push Docker Images
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "skill-map/**"
+      - ".github/workflows/skill-map-docker.yml"
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_PREFIX: ghcr.io/${{ github.repository_owner }}
+
+jobs:
+  build-backend:
+    name: Build backend image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push backend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./skill-map/backend
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/skill-map-backend:latest
+            ghcr.io/${{ github.repository_owner }}/skill-map-backend:${{ github.sha }}
+
+  build-frontend:
+    name: Build frontend image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./skill-map/frontend
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/skill-map-frontend:latest
+            ghcr.io/${{ github.repository_owner }}/skill-map-frontend:${{ github.sha }}

@@ -13,6 +13,8 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./db/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
       - ./db/seed_skills.sql:/docker-entrypoint-initdb.d/02_seed.sql
+      - ./db/perception_schema.sql:/docker-entrypoint-initdb.d/03_perception_schema.sql
+      - ./db/seed_perception.sql:/docker-entrypoint-initdb.d/04_seed_perception.sql
     ports:
       - "5433:5432"
     healthcheck:
