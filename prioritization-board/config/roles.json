@@ -1,0 +1,19 @@
+{
+  "roles": [
+    "Developer",
+    "Manager",
+    "Leader"
+  ],
+  "teams": [
+    "Data Engineering",
+    "Data Analytics",
+    "Data Architecture",
+    "Business Intelligence",
+    "Platform Engineering",
+    "Business"
+  ],
+  "admin_users": [
+    "admin"
+  ],
+  "note": "Copy this file to roles.json and update with your org's teams and roles. In larger orgs this can be replaced with an SSO/Outlook integration — see docs/sso-integration.md"
+}

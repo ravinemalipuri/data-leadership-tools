@@ -28,9 +28,17 @@ class IdeaResponse(BaseModel):
     submitted_by_team: str
     status:            str
     created_at:        datetime
+    planning_flag:     bool = False
     total_votes:       int
     votes_up:          int
     votes_down:        int
     dev_votes_up:      int
     mgr_votes_up:      int
     ldr_votes_up:      int
+
+
+class FlagUpdate(BaseModel):
+    flag:         bool
+    performed_by: str
+    role:         str
+    is_admin:     bool = False

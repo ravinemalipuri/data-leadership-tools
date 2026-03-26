@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS ideas (
     role            VARCHAR(50)     NOT NULL,             -- Developer, Manager, Leader
     team            VARCHAR(100)    NOT NULL,             -- from roles.json
     status          VARCHAR(20)     NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'archived')),
+    planning_flag   BOOLEAN         NOT NULL DEFAULT FALSE,
     created_at      TIMESTAMP       NOT NULL DEFAULT NOW(),
     updated_at      TIMESTAMP       NOT NULL DEFAULT NOW()
 );
@@ -59,6 +60,7 @@ SELECT
     i.team            AS submitted_by_team,
     i.status,
     i.created_at,
+    i.planning_flag,
     COUNT(v.id)                                          AS total_votes,
     SUM(CASE WHEN v.vote = 'up'   THEN 1 ELSE 0 END)   AS votes_up,
     SUM(CASE WHEN v.vote = 'down' THEN 1 ELSE 0 END)   AS votes_down,
@@ -70,4 +72,4 @@ FROM ideas i
 LEFT JOIN votes v ON v.idea_id = i.id
 WHERE i.status = 'active'
 GROUP BY i.id, i.title, i.description, i.size, i.category,
-         i.role, i.team, i.status, i.created_at;
+         i.role, i.team, i.status, i.created_at, i.planning_flag;
