@@ -9,8 +9,8 @@ Practical tools for data & analytics leaders navigating the real challenges of r
 | Tool | What it does | Status |
 |------|-------------|--------|
 | [prioritization-board](./prioritization-board/) | Surface, vote on, and prioritize tech debt and ideas across the team before planning season — so the roadmap reflects what the platform actually needs | V1.1 — ready to use |
-| [skill-map](./skill-map/) | Map skill coverage across your data platform roles — identify gaps, track growth, and make capability conversations concrete | In progress |
-| team-perception | Understand how the team perceives platform health and ways of working — spot misalignment before it becomes a problem | Planned |
+| [skill-map](./skill-map/) | Map skill coverage across your data platform roles — identify gaps, track growth, and make capability conversations concrete & Understand how the team perceives platform health and ways of working — spot misalignment before it becomes a problem | Ready to Deploy |
+
 
 ---
 
