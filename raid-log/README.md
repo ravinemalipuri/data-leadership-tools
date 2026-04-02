@@ -21,11 +21,12 @@ A full-stack RAID Log management tool built for Technical Program Managers and D
 ---
 ## Sample Screens
 
-RAID Dashboard
+#RAID Dashboard
 
 <img width="1711" height="894" alt="image" src="https://github.com/user-attachments/assets/2505cbd2-0b30-4e6e-b812-e457b74ce179" />
 
-RAID Registraiton
+#RAID Registraiton
+
 <img width="836" height="758" alt="image" src="https://github.com/user-attachments/assets/61a1d577-5b08-4e04-9612-b0aeda552d63" />
 
 
