@@ -8,10 +8,21 @@ export function generateId(): string {
 }
 
 // ─── API Client ────────────────────────────────────────────────────────────────
+function getAuthHeader(): Record<string, string> {
+  try {
+    const raw = localStorage.getItem('raid_auth')
+    if (raw) {
+      const { token } = JSON.parse(raw)
+      if (token) return { Authorization: `Bearer ${token}` }
+    }
+  } catch { /* ignore */ }
+  return {}
+}
+
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(path, {
     ...options,
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    headers: { 'Content-Type': 'application/json', ...getAuthHeader(), ...options?.headers },
   })
   if (!res.ok) {
     const text = await res.text()

@@ -2,9 +2,12 @@ from pydantic import BaseModel, Field
 from typing import Optional, Literal
 from datetime import datetime
 
-RaidType   = Literal['R', 'A', 'I', 'D']
-RaidStatus = Literal['Open', 'In Progress', 'Resolved', 'Closed',
-                     'Blocked', 'Deferred', 'Deferred (Future)']
+RaidType   = Literal['R', 'A', 'I', 'D', 'DC']
+RaidStatus = Literal[
+    'Open', 'In Progress', 'Resolved', 'Closed',
+    'Blocked', 'Deferred', 'Deferred (Future)',
+    'Proposed', 'Accepted', 'Superseded', 'Deprecated',
+]
 Priority   = Literal['High', 'Medium', 'Low']
 Urgency    = Literal['High', 'Medium', 'Low']
 RiskLevel  = Literal['Intolerable', 'Substantial', 'Moderate', 'Tolerable']
@@ -21,13 +24,17 @@ class RaidEntryBase(BaseModel):
     mitigation:  str = ''
     due_date:    str = ''
     project:     str = ''
-    impact:      Optional[int]      = None
-    likelihood:  Optional[int]      = None
-    risk_score:  Optional[int]      = None
+    impact:      Optional[int]       = None
+    likelihood:  Optional[int]       = None
+    risk_score:  Optional[int]       = None
     risk_level:  Optional[RiskLevel] = None
+    # Decision-only
+    options_considered: Optional[str] = None
+    decision_rationale: Optional[str] = None
+    made_by:            Optional[str] = None
+    review_date:        Optional[str] = None
 
 
-# Create: id is accepted but always overridden by backend (generates R1, A2…)
 class RaidEntryCreate(RaidEntryBase):
     id: str = 'auto'
 

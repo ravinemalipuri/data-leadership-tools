@@ -6,7 +6,7 @@ import { RAID_TYPE_LABELS, riskLevelToColor } from '../types'
 import RiskMatrix from '../components/RiskMatrix'
 
 const TYPE_COLORS: Record<RaidType, string> = {
-  R: '#c0392b', A: '#2980b9', I: '#e67e22', D: '#8e44ad',
+  R: '#c0392b', A: '#2980b9', I: '#e67e22', D: '#8e44ad', DC: '#16a085',
 }
 const STATUS_COLORS: Record<RaidStatus, string> = {
   'Open':             '#c0392b',
@@ -16,6 +16,10 @@ const STATUS_COLORS: Record<RaidStatus, string> = {
   'Deferred (Future)':'#85929e',
   'Resolved':         '#3a9e6e',
   'Closed':           '#7f8c8d',
+  'Proposed':         '#2980b9',
+  'Accepted':         '#27ae60',
+  'Superseded':       '#e67e22',
+  'Deprecated':       '#95a5a6',
 }
 const PRIORITY_COLORS: Record<Priority, string> = {
   High: '#c0392b', Medium: '#f0a500', Low: '#3a9e6e',
@@ -29,11 +33,11 @@ const URGENCY_RANK:  Record<Urgency,  number> = { High: 1, Medium: 2, Low: 3 }
 type TypeFilter = 'All' | RaidType
 type SortKey = 'priority' | 'urgency' | 'due_date' | null
 
-const STATUSES: RaidStatus[] = ['Open', 'In Progress', 'Blocked', 'Deferred', 'Deferred (Future)', 'Resolved', 'Closed']
+const STATUSES: RaidStatus[] = ['Open', 'In Progress', 'Blocked', 'Deferred', 'Deferred (Future)', 'Resolved', 'Closed', 'Proposed', 'Accepted', 'Superseded', 'Deprecated']
 const PRIORITIES: Priority[] = ['High', 'Medium', 'Low']
 const URGENCIES:  Urgency[]  = ['High', 'Medium', 'Low']
 
-export default function Dashboard() {
+export default function Dashboard({ canCreate = true, canDelete = true }: { canCreate?: boolean; canDelete?: boolean }) {
   const navigate = useNavigate()
   const [entries, setEntries] = useState<RaidEntry[]>([])
   const [loading, setLoading] = useState(true)
@@ -121,7 +125,7 @@ export default function Dashboard() {
   }
 
   // Summary counts (always from full entries, not filtered)
-  const typeCounts = (['R', 'A', 'I', 'D'] as RaidType[]).map(t => ({
+  const typeCounts = (['R', 'A', 'I', 'D', 'DC'] as RaidType[]).map(t => ({
     type: t, label: RAID_TYPE_LABELS[t],
     total:      entries.filter(e => e.type === t).length,
     open:       entries.filter(e => e.type === t && e.status === 'Open').length,
@@ -185,9 +189,11 @@ export default function Dashboard() {
             onClick={() => exportToExcel(filtered)} disabled={filtered.length === 0}>
             ↓ Export {filtered.length > 0 ? `(${filtered.length})` : ''}
           </button>
-          <button className="btn btn-primary btn-sm" onClick={() => navigate('/raid/new')}>
-            + New RAID
-          </button>
+          {canCreate && (
+            <button className="btn btn-primary btn-sm" onClick={() => navigate('/raid/new')}>
+              + New Entry
+            </button>
+          )}
         </div>
       </div>
 
@@ -255,7 +261,7 @@ export default function Dashboard() {
         <div className="filter-group">
           <span className="filter-group-label">Type</span>
           <div className="filter-toggles">
-            {(['All', 'R', 'A', 'I', 'D'] as TypeFilter[]).map(t => (
+            {(['All', 'R', 'A', 'I', 'D', 'DC'] as TypeFilter[]).map(t => (
               <button key={t}
                 className={`filter-toggle ${typeFilter === t ? 'active' : ''}`}
                 style={typeFilter === t && t !== 'All'
@@ -450,7 +456,7 @@ export default function Dashboard() {
                         </span>
                       : <span className="na-text">—</span>}
                   </td>
-                  <td>{entry.owner || <span className="na-text">—</span>}</td>
+                  <td>{(entry.type === 'DC' ? entry.made_by : entry.owner) || <span className="na-text">—</span>}</td>
                   <td>
                     {entry.due_date
                       ? <span className={isOverdue(entry.due_date, entry.status) ? 'overdue' : ''}>
@@ -465,14 +471,18 @@ export default function Dashboard() {
                   </td>
                   <td>
                     <div className="action-buttons">
-                      <button className="btn-action btn-edit"
-                        onClick={() => navigate(`/raid/${entry.id}/edit`)}>Edit</button>
-                      <button
-                        className={`btn-action btn-delete ${deleteConfirm === entry.id ? 'confirm' : ''}`}
-                        onClick={() => handleDelete(entry.id)}
-                        onBlur={() => setDeleteConfirm(null)}>
-                        {deleteConfirm === entry.id ? 'Confirm?' : 'Delete'}
-                      </button>
+                      {canCreate && (
+                        <button className="btn-action btn-edit"
+                          onClick={() => navigate(`/raid/${entry.id}/edit`)}>Edit</button>
+                      )}
+                      {canDelete && (
+                        <button
+                          className={`btn-action btn-delete ${deleteConfirm === entry.id ? 'confirm' : ''}`}
+                          onClick={() => handleDelete(entry.id)}
+                          onBlur={() => setDeleteConfirm(null)}>
+                          {deleteConfirm === entry.id ? 'Confirm?' : 'Delete'}
+                        </button>
+                      )}
                     </div>
                   </td>
                 </tr>

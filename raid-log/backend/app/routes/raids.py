@@ -1,17 +1,19 @@
 import re
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, desc
+from sqlalchemy import select
 from app.database import get_db
 from app.models.raid import RaidEntry
 from app.schemas import RaidEntryCreate, RaidEntryUpdate, RaidEntryOut
+from app.auth import get_current_user, require_contributor, require_tpm
 from typing import Optional
 
 router = APIRouter()
 
 
 async def _next_id(db: AsyncSession, raid_type: str) -> str:
-    """Generate the next sequential ID for a given type: R1, R2 … A1, A2 … etc."""
+    """Generate next sequential ID: R1, R2 … A1 … DC1, DC2 …"""
+    prefix = re.escape(raid_type)
     result = await db.execute(
         select(RaidEntry.id).where(RaidEntry.type == raid_type)
     )
@@ -19,7 +21,7 @@ async def _next_id(db: AsyncSession, raid_type: str) -> str:
     nums = [
         int(m.group(1))
         for eid in existing
-        if (m := re.match(rf'^{raid_type}(\d+)$', eid))
+        if (m := re.match(rf'^{prefix}(\d+)$', eid))
     ]
     return f"{raid_type}{max(nums, default=0) + 1}"
 
@@ -31,6 +33,7 @@ async def list_raids(
     priority: Optional[str] = None,
     urgency:  Optional[str] = None,
     db: AsyncSession = Depends(get_db),
+    _user: dict = Depends(get_current_user),   # all roles can read
 ):
     q = select(RaidEntry).order_by(RaidEntry.type, RaidEntry.id)
     if type     and type     != 'All': q = q.where(RaidEntry.type     == type)
@@ -42,11 +45,14 @@ async def list_raids(
 
 
 @router.post('/', response_model=RaidEntryOut, status_code=201)
-async def create_raid(data: RaidEntryCreate, db: AsyncSession = Depends(get_db)):
-    # Always generate sequential type-prefixed ID — ignore any client-supplied id
+async def create_raid(
+    data: RaidEntryCreate,
+    db: AsyncSession = Depends(get_db),
+    _user: dict = Depends(require_contributor),   # contributor + tpm
+):
     entry_id = await _next_id(db, data.type)
     fields = data.model_dump()
-    fields.pop('id', None)   # discard client value if schema still sends one
+    fields.pop('id', None)
     entry = RaidEntry(**fields, id=entry_id)
     db.add(entry)
     await db.commit()
@@ -55,7 +61,11 @@ async def create_raid(data: RaidEntryCreate, db: AsyncSession = Depends(get_db))
 
 
 @router.get('/{raid_id}', response_model=RaidEntryOut)
-async def get_raid(raid_id: str, db: AsyncSession = Depends(get_db)):
+async def get_raid(
+    raid_id: str,
+    db: AsyncSession = Depends(get_db),
+    _user: dict = Depends(get_current_user),
+):
     result = await db.execute(select(RaidEntry).where(RaidEntry.id == raid_id))
     entry = result.scalar_one_or_none()
     if not entry:
@@ -64,7 +74,12 @@ async def get_raid(raid_id: str, db: AsyncSession = Depends(get_db)):
 
 
 @router.put('/{raid_id}', response_model=RaidEntryOut)
-async def update_raid(raid_id: str, data: RaidEntryUpdate, db: AsyncSession = Depends(get_db)):
+async def update_raid(
+    raid_id: str,
+    data: RaidEntryUpdate,
+    db: AsyncSession = Depends(get_db),
+    _user: dict = Depends(require_contributor),   # contributor + tpm
+):
     result = await db.execute(select(RaidEntry).where(RaidEntry.id == raid_id))
     entry = result.scalar_one_or_none()
     if not entry:
@@ -77,7 +92,11 @@ async def update_raid(raid_id: str, data: RaidEntryUpdate, db: AsyncSession = De
 
 
 @router.delete('/{raid_id}', status_code=204)
-async def delete_raid(raid_id: str, db: AsyncSession = Depends(get_db)):
+async def delete_raid(
+    raid_id: str,
+    db: AsyncSession = Depends(get_db),
+    _user: dict = Depends(require_tpm),   # TPM only
+):
     result = await db.execute(select(RaidEntry).where(RaidEntry.id == raid_id))
     entry = result.scalar_one_or_none()
     if not entry:

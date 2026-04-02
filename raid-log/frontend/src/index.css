@@ -198,24 +198,28 @@ html, body { height: 100%; font-family: var(--font); background: var(--bg); colo
 .risk-matrix-legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; }
 .risk-matrix-legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
 
-/* ─── Summary Cards ───────────────────────────────────────────────────────── */
+/* ─── Summary Cards — single responsive banner row ───────────────────────── */
 .summary-cards {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 4px;
 }
-@media (max-width: 900px) { .summary-cards { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 500px) { .summary-cards { grid-template-columns: 1fr; } }
+.summary-cards::-webkit-scrollbar { height: 4px; }
+@media (max-width: 700px) { .summary-cards { flex-wrap: wrap; } }
 
 .summary-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-top: 4px solid;
   border-radius: var(--radius);
-  padding: 16px;
+  padding: 14px 16px;
   cursor: pointer;
   transition: box-shadow 0.15s, transform 0.15s;
   box-shadow: var(--shadow);
+  flex: 1 1 160px;
+  min-width: 150px;
 }
 .summary-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.12); transform: translateY(-1px); }
 .summary-card.card-active { box-shadow: 0 0 0 2px currentColor, var(--shadow); }
@@ -224,13 +228,16 @@ html, body { height: 100%; font-family: var(--font); background: var(--bg); colo
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  min-width: 32px;
+  height: 28px;
+  padding: 0 8px;
   border-radius: 8px;
   color: #fff;
   font-weight: 800;
-  font-size: 16px;
+  font-size: 13px;
   margin-bottom: 8px;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
 }
 .card-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
 .card-count { font-size: 36px; font-weight: 800; line-height: 1.1; margin: 4px 0 8px; }
@@ -593,6 +600,88 @@ textarea.form-input { resize: vertical; min-height: 80px; }
 }
 .not-found-box h2 { margin-bottom: 12px; font-size: 20px; }
 .not-found-box p { color: var(--text-muted); margin-bottom: 20px; }
+
+/* ─── Nav user badge ────────────────────────────────────────────────────────── */
+.nav-user-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-user-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.85);
+}
+.nav-user-role {
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+}
+
+/* ─── Login Page ─────────────────────────────────────────────────────────────── */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  padding: 24px;
+}
+.login-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+  padding: 36px 40px;
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.login-brand-text {}
+.login-title { font-size: 22px; font-weight: 800; line-height: 1.1; }
+.login-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+.login-form { display: flex; flex-direction: column; gap: 14px; }
+.login-error {
+  background: #fee2e2;
+  color: #7f1d1d;
+  border: 1px solid #fca5a5;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 500;
+}
+[data-theme="dark"] .login-error { background: #7f1d1d; color: #fecaca; border-color: #991b1b; }
+.login-roles { border-top: 1px solid var(--border); padding-top: 16px; }
+.login-roles-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 10px; }
+.login-roles-grid { display: flex; flex-direction: column; gap: 8px; }
+.login-role-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-left: 3px solid;
+  border-radius: 0 6px 6px 0;
+  background: var(--surface-2);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.login-role-card:hover { background: var(--border); }
+.login-role-icon { font-size: 18px; line-height: 1; }
+.login-role-label { font-size: 13px; font-weight: 700; }
+.login-role-desc { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+.login-creds-hint { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 10px; font-style: italic; }
 
 /* ─── Scrollbar ─────────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }

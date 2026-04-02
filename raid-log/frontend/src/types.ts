@@ -1,13 +1,14 @@
-export type RaidType = 'R' | 'A' | 'I' | 'D'
+export type RaidType = 'R' | 'A' | 'I' | 'D' | 'DC'
 export type RaidStatus =
   | 'Open' | 'In Progress' | 'Resolved' | 'Closed'
   | 'Blocked' | 'Deferred' | 'Deferred (Future)'
+  | 'Proposed' | 'Accepted' | 'Superseded' | 'Deprecated'
 export type Urgency    = 'High' | 'Medium' | 'Low'
 export type Priority   = 'High' | 'Medium' | 'Low'
 export type RiskLevel  = 'Intolerable' | 'Substantial' | 'Moderate' | 'Tolerable'
 
 export const RAID_TYPE_LABELS: Record<RaidType, string> = {
-  R: 'Risk', A: 'Assumption', I: 'Issue', D: 'Dependency',
+  R: 'Risk', A: 'Assumption', I: 'Issue', D: 'Dependency', DC: 'Decision',
 }
 
 export const IMPACT_LABELS: Record<number, string> = {
@@ -60,6 +61,11 @@ export interface RaidEntry {
   likelihood?: number
   risk_score?: number
   risk_level?: RiskLevel
+  // Decision-only
+  options_considered?: string
+  decision_rationale?: string
+  made_by?:            string
+  review_date?:        string
   created_at:  string
   updated_at:  string
 }
