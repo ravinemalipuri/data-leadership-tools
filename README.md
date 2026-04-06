@@ -9,7 +9,7 @@ Practical tools for data & analytics leaders navigating the real challenges of r
 | Tool | What it does | Status |
 |------|-------------|--------|
 | [prioritization-board](./prioritization-board/) | Surface, vote on, and prioritize tech debt and ideas across the team before planning season — so the roadmap reflects what the platform actually needs <img width="1772" height="896" alt="image" src="https://github.com/user-attachments/assets/fcb9b528-a0ff-4980-8a32-9f6691e27248" /> | v1.1 — Ready to use |
-| [skill-map](./skill-map/) | Map skill coverage across your data platform roles — identify gaps, track growth, and make capability conversations concrete & Understand how the team perceives platform health and ways of working — spot misalignment before it becomes a problem <img width="1186" height="897" alt="image" src="https://github.com/user-attachments/assets/d6f4e0fc-6a2c-478e-833b-f9ff336e2002" /> | Ready to Deploy |
+| [skill-map](./skill-map/) | Map skill coverage across data platform roles primary focus mentoring & Coaching — identify gaps, track growth, and make capability conversations concrete & Understand how the team perceives platform health and ways of working — spot misalignment before it becomes a problem <img width="1186" height="897" alt="image" src="https://github.com/user-attachments/assets/d6f4e0fc-6a2c-478e-833b-f9ff336e2002" /> | Ready to Deploy |
 | [raid-log](./raid-log/) | Full-stack RAID Log for Technical Programme Managers — track Risks, Assumptions, Issues, and Dependencies across enterprise data programmes (Data Mesh, MDM, SAP/Salesforce integrations). Risk scoring matrix, smart dashboard filters, Excel import/export, Docker-ready <img width="1711" height="894" alt="image" src="https://github.com/user-attachments/assets/ea82ac76-8a8f-4563-b4bd-faa1beefdabe" /> | v1.1 — Ready to use |
 
 
@@ -17,7 +17,7 @@ Practical tools for data & analytics leaders navigating the real challenges of r
 
 ## Why this exists
 
-Running a data & analytics platform involves more than architecture and pipelines. The harder challenges are operational — deciding what to prioritise when everything feels urgent, understanding where the team's capability gaps are, and maintaining alignment across engineering, analytics, and the business.
+Running a data & analytics platform involves more than architecture and pipelines. The harder challenges are operational — deciding what to prioritise when everything feels urgent, understanding where the team's capability gaps are, and maintaining alignment across engineering, analytics, and the business. This system trying to create feedback loops we can act upon.
 
 These tools are built around those challenges. Each one is designed to make a specific management problem more visible and easier to act on.
 
